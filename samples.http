@@ -13,10 +13,31 @@ GET http://localhost:3000/api/users/Homer HTTP/1.1
 DELETE http://localhost:3000/api/users/KnechtRuprecht HTTP/1.1
 
 ### POST a user
-POST http://localhost:3000/api/users/ HTTP/1.1
+POST http://localhost:3000/api/users HTTP/1.1
 Content-Type: application/json
 
-{
-"username": "HomerS"
+{"name": "Homer",
+"username": "HomerS",
 "password": "flenders123"
 }
+
+### Login a user
+POST http://localhost:3000/api/login HTTP/1.1
+Content-Type: application/javascript
+{
+"username": "Bart",
+"password": "itchyandscratchy123"
+}
+
+### Login a user
+POST http://localhost:3000/api/login HTTP/1.1
+Content-Type:: application/json
+
+{
+    "username": "KnechtRuprecht",
+    "passwort": "snowball123",
+}
+
+
+### Get logged in user
+GET http://localhost:3000/api/me HTTP/1.1

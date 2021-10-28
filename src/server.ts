@@ -1,4 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import { connectDatabase } from './utils/database';
+
+if (!process.allowedNodeEnvironmentFlags.MONGODB_URI) {
+  throw new Error('No MongoDB URL dotenv variable');
+}
 
 const app = express();
 const port = 3000;
@@ -8,10 +17,10 @@ const port = 3000;
  */
 
 //Custom middleware to log request
-// app.use(request, _response, next); => {
-//   console.log ('request received', request.url);
-//   next();
-// }
+app.use((request, _response, next) => {
+  console.log('Request received', request.url);
+  next();
+});
 
 // For parsing application/json
 app.use(express.json());
@@ -76,6 +85,8 @@ app.get('/api/users/:name', function (request, response) {
   response.send(request.params);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+connectDatabase(process.env.MONGODB_URI)().then(() =>
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  })
+);
